@@ -15,7 +15,7 @@ void input()
   set<int> s;
   unordered_map<int, int> m;
 
-  cin >> N;
+  cin >> N;       
   FOR(n, N) {
     int S, E, C;
     cin >> S >> E >> C;
