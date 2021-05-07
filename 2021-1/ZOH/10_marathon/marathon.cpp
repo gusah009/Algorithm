@@ -96,19 +96,19 @@ void solve()
       }
     }
   }
-  FOR(n, N) {
-    cout << (n + 'a') << " " << dist[n] << '\n';
-  }
+  // FOR(n, N) {
+  //   cout << (n + 'a') << " " << dist[n] << '\n';
+  // }
 
   string tmp = "";
   DFS(0, -1, 0, tmp);
 
   sort(answer.begin(), answer.end(), comp);
-  cout << answer.size() << '\n';
-  FOR(i, answer.size()) {
-    cout << answer[i].size() << ' ';
-    cout << answer[i] << '\n';
-  }
+  // cout << answer.size() << '\n';
+  // FOR(i, answer.size()) {
+  //   cout << answer[i].size() << ' ';
+  //   cout << answer[i] << '\n';
+  // }
 }
 
 void print()
