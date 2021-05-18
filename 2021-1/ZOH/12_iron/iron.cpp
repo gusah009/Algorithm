@@ -9,7 +9,7 @@ using namespace std;
 
 int N, M;
 int edge[MAX][MAX] = {0};
-int dist[MAX] = {0};
+int dist[(1 << 26)] = {0};
 pair<int, vector<int> > answer;
 
 void input()
@@ -28,27 +28,28 @@ void input()
 
 void solve()
 {
-  // weight, vertex, isVisted
-  priority_queue<pair<int, pair<int, vector<int> > > > PQ;
+  // weight, vertex, isVisted, visitPath
+  queue<pair<pair<int, int>, pair<int, vector<int> > > > Q;
   vector<int> tmp;
-  PQ.push(make_pair(0, make_pair(START, tmp)));
+  Q.push(make_pair(make_pair(0, START), make_pair(0, tmp)));
 
-  while (!PQ.empty()) {
-    int curr_w = PQ.top().first;
-    int curr_v = PQ.top().second.first;
-    vector<int> isVisited = PQ.top().second.second;
-    PQ.pop();
+  while (!Q.empty()) {
+    int curr_w = Q.front().first.first;
+    int curr_v = Q.front().first.second;
+    int isVisited = Q.front().second.first;
+    vector<int> visitPath = Q.front().second.second;
+    Q.pop();
 
     if (curr_v == 0) {
       if (curr_w != 0) {
         if (curr_w > answer.first) {
-          answer = make_pair(curr_w, isVisited);
+          answer = make_pair(curr_w, visitPath);
         } else if (curr_w == answer.first) {
-          if (answer.second.size() < isVisited.size()) {
-            answer = make_pair(curr_w, isVisited);
-          } else if (answer.second.size() == isVisited.size()) {
-            if (answer.second > isVisited) {
-              answer = make_pair(curr_w, isVisited);
+          if (answer.second.size() < visitPath.size()) {
+            answer = make_pair(curr_w, visitPath);
+          } else if (answer.second.size() == visitPath.size()) {
+            if (answer.second > visitPath) {
+              answer = make_pair(curr_w, visitPath);
             }
           }
         }
@@ -59,18 +60,19 @@ void solve()
 
     FOR(i, MAX) {
       if (edge[curr_v][i]) {
-        if (find(isVisited.begin(), isVisited.end(), i) == isVisited.end()) {
+        if (find(visitPath.begin(), visitPath.end(), i) == visitPath.end()) {
           int next_w = edge[curr_v][i];
           int next_v = i;
+          int nextVisited = isVisited + (1 << i);
 
-          // if (dist[next_v] < curr_w + next_w) {
-          //   dist[next_v] = curr_w + next_w;
-          // }
-          // cout << curr_w << ' ' << curr_v << ' ' << i << "\n";
-          vector<int> nowVisited(isVisited.size());
-          copy(isVisited.begin(), isVisited.end(), nowVisited.begin());
-          nowVisited.push_back(next_v);
-          PQ.push(make_pair(curr_w + next_w, make_pair(next_v, nowVisited)));
+          if (dist[nextVisited] <= curr_w + next_w) {
+            dist[nextVisited] = curr_w + next_w;
+            // cout << curr_w << ' ' << curr_v << ' ' << i << "\n";
+            vector<int> currPath(visitPath.size());
+            copy(visitPath.begin(), visitPath.end(), currPath.begin());
+            currPath.push_back(next_v);
+            Q.push(make_pair(make_pair(curr_w + next_w, next_v), make_pair(nextVisited, currPath)));
+          }
         }
       }
     }
