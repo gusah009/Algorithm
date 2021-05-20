@@ -38,15 +38,11 @@ void solve()
 {
   while (!known.empty()) {
     int virus = known.front();
-    // cout << "v: " << virus << '\n';
     known.pop();
     FOR(m, M) {
       if(party[virus][m]) {
         cantLie[m] = true;
         FOR(n, N + 1) {
-          // cout << n << ' ' << m << '\n';
-          // cout << "A: " << party[n][m] << '\n';
-          // cout << "B: " << isKnown[n] << '\n';
           if (party[n][m] && isKnown[n] == false) {
             isKnown[n] = true;
             known.push(n);
