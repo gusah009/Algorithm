@@ -4,25 +4,23 @@
 using namespace std;
 
 #define FOR(i, j) for (int i = 0; i < j; i++)
+#define INF 1987654321
 
 int N;
 string sik;
 int num[10];
 char oper;
 
-int init[10];
-int dp[11];
 vector<vector<int> > choice;
-int answer = 0;
+long long answer = -INF;
 
 void GetCaseCount(int remain, int v, vector<int> arr)
 {
   if (remain == 0) {
-    choice.push_back(arr);
-    FOR(i, arr.size()) {
-      cout << arr[i] << ' ';
+    FOR(j, arr.size()) {
+      if (arr[j] >= 3) return;
     }
-    cout << '\n';
+    choice.push_back(arr);
   }
   if (remain < v)
     v = remain;
@@ -40,58 +38,61 @@ int main()
 {
   cin >> N;
   cin >> sik;
-  int i = 0;
 
-  FOR(i, 10)
-  {
-    init[i] = 1;
+  if (N == 1) {
+    cout << sik[0] - '0' << '\n';
+    return 0;
   }
-
-  for (int n = 0; n < N; n += 2)
-  {
-    num[i++] = sik[n] - '0';
-  }
-
   vector<int> arr;
   GetCaseCount(N/2 + 1, N/2, arr);
 
   FOR(i, choice.size()) {
     do {
-      int result = 0;
+      long long result = 0;
       oper = 'X';
+      int n = 0;
       FOR(j, choice[i].size()) {
-        for (int n = 0; n < N;) {
-          int res = 0;
-          char op = 'X';
-          FOR(k, choice[i][j] * 2 - 1) {
-            if (k % 2 == 0) {
-              if (op == 'X') {
-                res = sik[n] - '0';
-              } else if (op == '+') {
-                res += sik[n] - '0';
-              } else if (op == '-') {
-                res -= sik[n] - '0';
-              } else if (op == '*') {
-                res *= sik[n] - '0';
-              }
-            } else {
-              op = sik[n];
+        long long res = 0;
+        char op = 'X';
+        FOR(k, choice[i][j] * 2 - 1) {
+          if (k % 2 == 0) {
+            if (op == 'X') {
+              res = sik[n] - '0';
+            } else if (op == '+') {
+              res += sik[n] - '0';
+            } else if (op == '-') {
+              res -= sik[n] - '0';
+            } else if (op == '*') {
+              res *= sik[n] - '0';
             }
-            n++;
+          } else {
+            op = sik[n];
           }
-          if (sik[n++] == 'X') {
-            result = res;
-          } else if (sik[n++] == '+') {
-            result += res;
-          } else if (sik[n++] == '-') {
-            result -= res;
-          } else if (sik[n++] == '*') {
-            result *= res;
-          }
+          n++;
+        }
+        if (oper == 'X') {
+          result = res;
+        } else if (oper == '+') {
+          result += res;
+        } else if (oper == '-') {
+          result -= res;
+        } else if (oper == '*') {
+          result *= res;
+        }
+        if (n == N) {
+          break;
+        } else {
+          oper = sik[n++];
         }
       }
+      // FOR(j, choice[i].size()) {
+      //   cout << choice[i][j] << ' ';
+      // }
+      // cout << result << '\n';
+      // cout << '\n';
+      
       answer = answer < result ? result : answer;
-    } while(next_permutation(choice[i].begin(), choice[i].end()));
+    } while(prev_permutation(choice[i].begin(), choice[i].end()));
   }
 
   cout << answer << '\n';
