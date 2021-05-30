@@ -148,9 +148,14 @@ void print()
   //   ans.pop();
   // }
   ofstream out("food.out");
-  while(!ans.empty()) {
-    out << ans.top() << ' ';
-    ans.pop();
+  if (ans.size() == 0) {
+    out << "zero(0)";
+  }
+  else {
+    while(!ans.empty()) {
+      out << ans.top() << ' ';
+      ans.pop();
+    }
   }
   out.close();
 }

@@ -29,7 +29,7 @@ int main()
     int curr_a, curr_b;
 
     FOR(c, C) {
-      if (isInf > 50000001) {
+      if (isInf >= 50000000) {
         cout << "Loops " << curr_a << " " << curr_b << '\n';
         break;
       } 
@@ -43,22 +43,39 @@ int main()
       } else if (code[c] == '>') {
         pointer = (pointer - 1) % M;
       } else if (code[c] == '[') {
-        curr_a = c;
         if (arr[pointer] == 0) {
+          curr_a = c;
+          int pairCheck = 0;
           for (int a = c + 1; a < M; a++) {
+            if (code[a] == '[') {
+              pairCheck++;
+            }
             if (code[a] == ']') {
-              c = a;
-              break;
+              if (pairCheck == 0) {
+                c = a;
+                break;
+              } else {
+                pairCheck--;
+              }
             }
           }
         }
       } else if (code[c] == ']') {
         if (arr[pointer] != 0) {
           curr_b = c;
-          for (int a = c; a >= 0; a--) {
+          // c = curr_a;
+          int pairCheck = 0;
+          for (int a = c - 1; a >= 0; a--) {
+            if (code[a] == ']') {
+              pairCheck++;
+            }
             if (code[a] == '[') {
-              c = a;
-              break;
+              if (pairCheck == 0) {
+                c = a;
+                break;
+              } else {
+                pairCheck--;
+              }
             }
           }
         }
@@ -72,7 +89,7 @@ int main()
         }
       }
     }
-    if (isInf <= 50000001) {
+    if (isInf < 50000000) {
       cout << "Terminates\n";
     }
   }
