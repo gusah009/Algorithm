@@ -27,9 +27,9 @@ void solve()
     string tmp;
     cin >> tmp;
     if (isupper(tmp[0])) {
-      cout << "!!!" << poketmon[tmp] << '\n';
+      cout << poketmon[tmp] << '\n';
     } else {
-      cout <<"!!!" <<  poketmon_num[stoi(tmp)] << '\n';
+      cout << poketmon_num[stoi(tmp)] << '\n';
     }
   }
 }
