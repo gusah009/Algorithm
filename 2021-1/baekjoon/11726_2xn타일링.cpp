@@ -21,7 +21,7 @@ void solve()
   DP[2] = 2;
   for (int n = 3; n <= N; n++) {
     DP[n] = DP[n - 2] + DP[n - 1];
-    DP[n] % 10007;
+    DP[n] %= 10007;
   }
 }
 
