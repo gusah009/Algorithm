@@ -5,15 +5,13 @@ using namespace std;
 
 #define FOR(i, j) for(int i = 0; i < j; i++)
 
-int T, n, m;
+long long T, n, m;
 long long A[1001], B[1001];
 long long DPA[1001];
 long long DPB[1001];
-multiset<long long> DPn;
-multiset<long long> DPm;
+map<long long, long long> DPn;
+map<long long, long long> DPm;
 long long answer = 0;
-
-typedef std::multiset<long long>::iterator It;
 
 void input()
 {
@@ -39,29 +37,51 @@ void solve()
     DPB[i] = DPB[i - 1] + B[i];
   }
 
-  int X = 0;
   FOR(a, n) {
     FOR(b, a + 1) {
-      if (b == 0) DPn.insert(DPA[a]);
-      else DPn.insert(DPA[a] - DPA[b - 1]);
+      if (b == 0) {
+        if (DPn.find(DPA[a]) == DPn.end()) {
+          DPn.insert(make_pair(DPA[a], 1));
+        } else {
+          DPn[DPA[a]]++;
+        }
+      }
+      else {
+        if (DPn.find(DPA[a] - DPA[b - 1]) == DPn.end()) {
+          DPn.insert(make_pair(DPA[a] - DPA[b - 1], 1));
+        } else {
+          DPn[DPA[a] - DPA[b - 1]]++;
+        }
+      }
     }
   }
 
-  int Y = 0;
   FOR(c, m) {
     FOR(d, c + 1) {
-      if (d == 0) DPm.insert(DPB[c]);
-      else DPm.insert(DPB[c] - DPB[d - 1]);
+      if (d == 0) {
+        if (DPm.find(DPB[c]) == DPm.end()) {
+          DPm.insert(make_pair(DPB[c], 1));
+        } else {
+          DPm[DPB[c]]++;
+        }
+        }
+      else {
+        auto it = DPm.find(DPB[c] - DPB[d - 1]);
+        if (it == DPm.end()) {
+          DPm.insert(make_pair(DPB[c] - DPB[d - 1], 1));
+        } else {
+          it->second++;
+        }
+      }
     }
   }
 
-  // cout << "!!: " << DPn.size() << '\n';
   for(auto iter = DPn.begin(); iter != DPn.end(); iter++){
-    // cout << *iter << '\n';
-    pair<It,It> ret = DPm.equal_range(T - *iter);
-    answer += distance(ret.first, ret.second);
-  }    
-  
+    auto it = DPm.find(T - iter->first);
+    if (it != DPm.end()) {
+      answer += it->second * iter->second;
+    }
+  } 
 }
 
 void print()
