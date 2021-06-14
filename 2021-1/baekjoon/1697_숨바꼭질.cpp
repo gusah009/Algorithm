@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
-#include<assert.h> 
+#include <assert.h> 
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -32,16 +33,16 @@ void solve()
     int t = Q.front().second;
     Q.pop();
     
-    if (DP[next] > t) {
+    if (DP[next] >= t) {
       DP[next] = t;
       // cout << next << '\n';
-      if (next < 300001) {
+      if (next < 100001) {
         Q.push(make_pair(next + 1, t + 1));
       }
       if (next > 0) {
         Q.push(make_pair(next - 1, t + 1));
       }
-      if (next * 2 < 300001) {
+      if (next * 2 < 100001) {
         Q.push(make_pair(next * 2, t + 1));
       }
     }
@@ -50,6 +51,10 @@ void solve()
 
 void print()
 {
+  // ofstream out("test.txt");
+  // FOR(i, 200000) {
+  //   out << i << ':' << DP[i] << '\n';
+  // }
   // assert (DP[K] == INF);
   cout << DP[K] << '\n';
 }
