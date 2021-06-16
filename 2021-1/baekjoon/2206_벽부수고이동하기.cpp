@@ -73,22 +73,22 @@ void solve()
 
 void print()
 {
-  FOR(n, N) {
-    FOR(m, M) {
-      cout << DP[n][m][0] << ' ';
-    }
-    cout << '\n';
-  }
+  // FOR(n, N) {
+  //   FOR(m, M) {
+  //     cout << DP[n][m][0] << ' ';
+  //   }
+  //   cout << '\n';
+  // }
 
-  FOR(n, N) {
-    FOR(m, M) {
-      cout << DP[n][m][1] << ' ';
-    }
-    cout << '\n';
-  }
-  // int answer = min(DP[N - 1][M - 1][0], DP[N - 1][M - 1][1]);
-  // if (answer == INF) cout << -1 << '\n';
-  // else cout << answer << '\n';
+  // FOR(n, N) {
+  //   FOR(m, M) {
+  //     cout << DP[n][m][1] << ' ';
+  //   }
+  //   cout << '\n';
+  // }
+  int answer = min(DP[N - 1][M - 1][0], DP[N - 1][M - 1][1]);
+  if (answer == INF) cout << -1 << '\n';
+  else cout << answer << '\n';
 }
 
 int main()

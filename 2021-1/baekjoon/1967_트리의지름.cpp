@@ -18,13 +18,13 @@ void input()
     edge[parent].push_back(make_pair(child, weight));
     edge[child].push_back(make_pair(parent, weight));
   }
-  answer.second = -1;
+  answer.second = 0;
 }
 
 void DFS(int n, int prev_n, int w)
 {
   if (edge[n].size() == 1) {
-    cout << "n: " << n << '\n';
+    // cout << "n: " << n << '\n';
     if (answer.second < w) {
       answer.second = w;
       answer.first = n;
