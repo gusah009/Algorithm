@@ -5,7 +5,7 @@ using namespace std;
 
 #define FOR(i, j) for(int i = 0; i < j; i++)
 
-int N, M, b[101], c[101], dp[10001], ans;
+int N, M, b[101], c[101], dp[10001] = {0}, ans;
 
 void input()
 {
@@ -21,7 +21,8 @@ void solve()
 		for (int j = 10000; j >= c[n]; j--)			
 			dp[j] = max(dp[j], dp[j - c[n]] + b[n]);
 
-	FOR(n, 10000) if (dp[n] >= M) {
+	FOR(n, 10001)
+	if (dp[n] >= M) {
 		ans = n;
 		break;
 	}
